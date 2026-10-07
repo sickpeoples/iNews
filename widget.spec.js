@@ -152,6 +152,41 @@ test('Popular News', async ({ page }) =>{
     }
 });
 
+test('iShort', async ({ page }) => {
+    const ishort = page.locator('.widget-v-video');
+    const seeall = page.locator('.widget-v-video-btn');
+    await expect(ishort).toBeVisible();
+    await expect(seeall).toBeVisible();
+    const totalishort = await page.locator('.widget-v-video-card').count();
+    const linkurl = page.url();
+    for (let i = 0; i < totalishort; i++){
+    await page.goto(linkurl);
+    const judul = ishort.locator('.widget-v-video-title').nth(i);
+    const namajudul = await judul.innerText();
+    const thumbnail = ishort.locator('.widget-v-video-img img').nth(i);
+
+    await thumbnail.click();
+
+    await expect(page.locator('.ishort-title').first()).toHaveText(namajudul);
+    await expect(page.locator('.ishort-video').first()).toBeVisible();
+    // cek logo
+    const logo1 = page.getByLabel('logon').first();
+    await expect(logo1).toHaveScreenshot('ikon-inews-ishort-win32.png');
+    // cek search
+    const search = page.locator('.ishort-search')
+    await expect(search).toHaveScreenshot('form-search-ishort-win32.png');
+    // cek dark mode
+    const darkmode = page.locator('#theme-toggle');
+    await expect(darkmode).toHaveScreenshot('ikon-darkmode-ishort-win32.png');
+    // cek login
+    const login = page.locator('#login');
+    await expect(login).toHaveScreenshot('ikon-login-ishort-win32.png');
+    // cek burgerbtn
+    const burger = page.getByLabel('burger-btn');
+    await expect(burger).toHaveScreenshot('ikon-burger-ishort-win32.png');
+    }
+})
+
 test('Latest News', async ({ page }) => {
     const latest = page.locator('.widgetListArticle.row').filter({has: page.locator('h3:has-text("Latest News")')}).first();
     await expect(latest).toBeVisible();

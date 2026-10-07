@@ -36,8 +36,27 @@ test('Detail Artikel', async({ page }) => {
     // masuk detail artikel
     await thumbnail.click();
     // cek icon
-    await expect(page.getByLabel('logon').first()).toBeVisible();
-    await expect(page.getByLabel('logon').nth(1)).toBeVisible();
+    const logo1 = page.getByLabel('logon').first();
+    const logo2 = page.getByLabel('logon').nth(1);
+    const logo3 = page.locator('.app-gateway')
+    await expect(logo1).toHaveScreenshot('ikon-inews-header-win32.png');
+    await expect(logo2).toHaveScreenshot('ikon-tv-header-win32.png');
+    await expect(logo3).toHaveScreenshot('ikon-getinews-header-win32.png');
+    // cek search
+    const search = page.locator('.searchForm')
+    await expect(search).toHaveScreenshot('form-search-header-win32.png');
+    // cek dark mode
+    const darkmode = page.locator('#theme-toggle');
+    await expect(darkmode).toHaveScreenshot('ikon-darkmode-header-win32.png');
+    // cek login
+    const login = page.locator('#login');
+    await expect(login).toHaveScreenshot('ikon-login-header-win32.png');
+    // cek network
+    const network = page.locator('.networkNav');
+    await expect(network).toHaveScreenshot('ikon-network-header-win32.png');
+    // cek burgerbtn
+    const burger = page.getByLabel('burger-btn');
+    await expect(burger).toHaveScreenshot('ikon-burger-header-win32.png');
     // cek paragraph
     const paragraf = await page.locator('p').count();
     expect(paragraf).toBeGreaterThan(2);
@@ -209,4 +228,11 @@ test('Latest News', async ({ page }) => {
     expect (linkdetailthumbnail).toContain(namaFileGambar);
     const detailjudul = page.locator('.headerTitle');
     expect (detailjudul).toHaveText(teksjudul);
+})
+
+test('tes logo', async ({ page }) => {
+    const logo1 = page.getByLabel('logon').first();
+    const logo2 = page.getByLabel('logon').nth(1);
+    await expect(logo1).toHaveScreenshot('ikon-inews-header.png');
+    await expect(logo2).toHaveScreenshot('ikon-tv-header.png');
 })
