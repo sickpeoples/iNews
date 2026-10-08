@@ -13,10 +13,6 @@ export class InewsSearch extends BasePage {
         this.detailjudulartikel = page.locator('.headerTitle');
         this.detailthumbnailartikel = page.locator('.headerImg img');
     }
-
-    async bukaHalaman() {
-        await this.page.goto('https://www.inews.id/');
-    }
     locatorjudul(index){
         return this.judulartikel.nth(index);
     }
@@ -32,7 +28,7 @@ export class InewsSearch extends BasePage {
         const src = await locatorthumbnail.getAttribute('src');
         return src.split('/').pop().split('?')[0];
     }
-    async namafiledetail(index){
+    async namafiledetail(){
         const src = await this.detailthumbnailartikel.getAttribute('src');
         return src.split('/').pop().split('?')[0];
     }

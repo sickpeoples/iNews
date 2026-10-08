@@ -20,4 +20,7 @@ export class BasePage {
             }
         });
     }
+    async bukaHalaman() {
+        await this.page.goto('https://www.inews.id/');
+        }
 }
