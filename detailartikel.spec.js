@@ -35,6 +35,9 @@ test('Detail Artikel', async({ page }) => {
     await expect(judul).toBeVisible();
     // masuk detail artikel
     await thumbnail.click();
+    // cek header icon
+    const header = page.locator('.container.topBar');
+    await expect(header).toHaveScreenshot('ikon-header-win32.png');
     // cek icon
     const logo1 = page.getByLabel('logon').first();
     const logo2 = page.getByLabel('logon').nth(1);

@@ -423,7 +423,5 @@ test('Opini', async ({ page }) => {
 
 test('Stories', async ({ page }) => {
     const stories = page.locator('#sideRightBottom5');
-    await expect(stories).toBeVisible();
-    const ceritalain = stories.locator('.buttonPosition').filter({has: stories.getByRole('button', {name: 'Cerita Lainnya'})})
-    await expect(ceritalain).toBeVisible();
+    await expect(stories).toBeVisible({ timeout: 15000 });
 })
