@@ -58,5 +58,5 @@ test('Detail Artikel Search', async ({ page }) => {
     await expect(search.detailjudulartikel).toHaveText(namajudul);
     const apakahGambarCocok = namaFileGambarDetail.includes(namaFileGambar) || namaFileGambar.includes(namaFileGambarDetail);
     expect(apakahGambarCocok).toBeTruthy();
-    }  
+    } 
 })
