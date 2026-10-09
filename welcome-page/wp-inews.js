@@ -7,30 +7,37 @@ export class WelcomePage extends BasePage {
         this.header = page.locator('.container.topBar');
         this.headline = page.locator('.widgetNewsHeadline');
         this.latestnews = page.locator('.widgetListArticle.row').first().filter({has: page.locator('h3:has-text("Latest News")')});
-        this.artikel = this.headline.getByLabel('article headline')
-        this.thumbnail = this.headline.locator('.cardImg img');
-        this.judul = this.headline.locator('.cardTitle');
+        this.artikelheadline = page.getByLabel('article headline');
+        this.footer = page.locator('.footerBody')
+        
+        this.artikel = '.cardArticle';
+        this.thumbnail = '.cardImg img';
+        this.judul = '.cardTitle';
+        
         this.detailthumbnail = page.locator('.headerImg img');
         this.detailjudul = page.locator('.headerTitle');
     }
+    locatorJudulDinamic(indukLocator, index) {
+        // Logika: Masuk ke induk -> cari artikel ke-i -> cari judulnya
+        return indukLocator.locator(this.artikel).nth(index).locator(this.judul);
+    }
 
-    hitungthumbnail(index){
-        return this.thumbnail.nth(index);
+    async namaJudulDinamic(indukLocator, index) {
+        const locator = this.locatorJudulDinamic(indukLocator, index);
+        return await locator.innerText();
     }
-    async namathumbnail(index){
-        const totalthumbnail = this.hitungthumbnail(index);
-        const linkthumbnail = await totalthumbnail.getAttribute('src');
-        return linkthumbnail.split('/').pop().split('?')[0];
+    locatorThumbnailDinamic(indukLocator, index) {
+        return indukLocator.locator(this.artikel).nth(index).locator(this.thumbnail);
     }
-    async namadetailthumbnail(){
+
+    async namaThumbnailDinamic(indukLocator, index) {
+        const locator = this.locatorThumbnailDinamic(indukLocator, index);
+        const linkthumbnail = await locator.getAttribute('src');
+        return linkthumbnail.split('/').pop().split('?')[0].trim().toLowerCase();
+    }
+
+    async namaDetailThumbnail() {
         const src = await this.detailthumbnail.getAttribute('src');
-        return src;
-    }
-    async judulartikel(index){
-        return this.judul.nth(index);
-    }
-    async namajudul(index){
-        const namaartikel = await this.judulartikel(index);
-        return await namaartikel.innerText();
+        return src.split('/').pop().split('?')[0].trim().toLowerCase();
     }
 }
