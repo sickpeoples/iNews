@@ -1,78 +1,86 @@
 import { test, expect } from '@playwright/test';
-import { WelcomePage } from './wp-inews';
+import { iNews } from '../iNews';
+import { Artikel } from '../artikel';
 
 test('Welcome Page', async ({ page }) => {
 test.setTimeout(120000);
-    const wppage = new WelcomePage(page);
-    await wppage.bukaHalaman();
+    const locator = new iNews(page);
+    await locator.bukaHalaman();
 
-    await expect(wppage.header).toBeVisible();
-    await expect(wppage.header).toHaveScreenshot('Header-WP.png');
-    await expect(wppage.headline).toBeVisible();
-    await expect(wppage.latestnews).toBeVisible();
+    await expect(locator.header).toBeVisible();
+    await expect(locator.header).toHaveScreenshot('Header-WP.png');
+    await expect(locator.headline).toBeVisible();
+    await expect(locator.latestnews).toBeVisible();
 });
 
 test('Headline', async ({ page }) => {
 test.setTimeout(120000);
-    const wppage = new WelcomePage(page);
-    await wppage.bukaHalaman();
+    const locator = new iNews(page);
+    const artikel = new Artikel(page);
+    await locator.siapkanJaringan();
+    await locator.bukaHalaman();
 
-    await expect(wppage.headline).toBeVisible();
+    const headline = locator.headline;
+    await expect(headline).toBeVisible();
+
     const linkurl = page.url();
-    const totalartikel = await wppage.artikelheadline.count();
-
-    console.log(`total artikel : ${totalartikel}`);
+    
+    const totalartikel = await headline.locator(artikel.artikel).count();
+    console.log(`Total Artikel Headline : ${totalartikel}`);
+    
     for (let i = 0; i < totalartikel; i++){
-    
     await page.goto(linkurl);
+    const namajudul = await artikel.namaJudulDinamic(headline, artikel.artikel, i);
+    const namagambar = await artikel.namaThumbnailDinamic(headline, artikel.artikel, i);
+    console.log(`${namajudul}, ${namagambar}`);
 
-    const namajudulartikel = await wppage.namaJudulDinamic(wppage.headline, i);
-    const klikgambar = await wppage.locatorThumbnailDinamic(wppage.headline, i);
-    const namagambar = await wppage.namaThumbnailDinamic(wppage.headline, i);
-    
-    console.log(`${i}/${totalartikel - 1} sedang cek artikel ${namajudulartikel} dan gambar ${namagambar}`);
+    const klikartikel = await artikel.locatorThumbnailDinamic(headline, artikel.artikel, i);
+    await klikartikel.click();
 
-    await klikgambar.click();
-    await page.waitForTimeout(1500);
+    const namagambardetail = await artikel.namaDetailThumbnail();
 
-    const namaFileGambarDetail = await wppage.namaDetailThumbnail();
-    
-    expect(namaFileGambarDetail).toContain(namagambar);
-    expect(wppage.detailjudul).toHaveText(namajudulartikel);
+    await expect(artikel.detailjudul).toHaveText(namajudul);
+    await expect(namagambardetail).toContain(namagambar);
     }
 });
 
 test('Latest News', async ({ page }) => {
 test.setTimeout(120000);
-    const latest = new WelcomePage(page);
-    await latest.bukaHalaman();
+    const locator = new iNews(page);
+    const artikel = new Artikel(page);
+    await locator.siapkanJaringan();
+    await locator.bukaHalaman();
 
-    const artikellatest = latest.latestnews.locator(latest.artikel);
-    const totalartikel = await artikellatest.count();
-    await expect(latest.latestnews).toBeVisible();
-    console.log(`Total Artikel Latest News : ${totalartikel}`);
-    
+    const latest = locator.latestnews;
+    await expect(latest).toBeVisible();
+
     const linkurl = page.url();
+    const totalartikel = await latest.locator(artikel.artikel).count();
+    console.log(`Total Artikel : ${totalartikel}`);
 
     for (let i = 0; i < totalartikel; i++){
+
     await page.goto(linkurl);
-    const namajudul = await latest.namaJudulDinamic(latest.latestnews, i);
-    const namagambar = await latest.namaThumbnailDinamic(latest.latestnews, i);
-    console.log(`Nama judul : ${namajudul} dan Nama gambar ${namagambar}`);
+    
+    const namajudul = await artikel.namaJudulDinamic(latest, artikel.artikel, i);
+    const namagambar = await artikel.namaThumbnailDinamic(latest, artikel.artikel, i);
 
-    const klikgambar = await latest.locatorThumbnailDinamic(latest.latestnews, i);
-    await klikgambar.click();
+    const klikartikel = await artikel.locatorThumbnailDinamic(latest, artikel.artikel, i);
+    await klikartikel.click();
 
-    const namaDetailThumbnail = await latest.namaDetailThumbnail();
-    await expect(latest.detailjudul).toHaveText(namajudul);
-    expect(namaDetailThumbnail).toContain(namagambar);
+    const namagambardetail = await artikel.namaDetailThumbnail();
+
+    await expect(artikel.detailjudul).toHaveText(namajudul);
+    expect(namagambardetail).toContain(namagambar);
+
     }
 });
 
 test('Footer', async ({ page }) => {
-    const footer = new WelcomePage(page);
-    await footer.bukaHalaman();
+    const locator = new iNews(page);
+    await locator.siapkanJaringan();
+    await locator.bukaHalaman();
 
-    await expect(footer.footer).toBeVisible();
-    await expect(footer.footer).toHaveScreenshot('WelcomePage-Footer.png');
+    await expect(locator.footer).toBeVisible();
+    await expect(locator.footer).toHaveScreenshot('WelcomePage-Footer.png');
 });

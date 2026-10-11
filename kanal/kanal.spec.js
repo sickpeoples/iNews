@@ -1,9 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { Kanal } from './kanal';
-import { WelcomePage  } from '../welcome-page/wp-inews';
+import { iNews } from '../iNews';
+import { Artikel } from '../artikel';
 
 test('Kanal', async ({ page }) => {
-    const kanal = new Kanal(page);
-    const artikel = new WelcomePage(page);
-    await kanal.bukaHalaman();
+    const locator = new iNews(page);
+    const artikel = new Artikel(page);
+    await locator.siapkanJaringan();
+    await locator.bukaHalaman();
+
+    const kanal = locator.kanal;
+    
 })

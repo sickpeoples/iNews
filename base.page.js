@@ -13,7 +13,21 @@ export class BasePage {
         });
 
         await this.page.route('**/*', (route) => {
-            if (route.request().url().includes('googleads')) {
+            const url = route.request().url();
+            
+            const daftarIklan = [
+                'googleads',
+                'doubleclick.net',
+                'googlesyndication.com',
+                'googletagservices.com',
+                'googletagmanager.com',
+                'adservice.google',
+                '/widget/desktop/'
+            ];
+
+            const apakahIniIklan = daftarIklan.some(keyword => url.includes(keyword));
+
+            if (apakahIniIklan) {
                 route.abort();
             } else {
                 route.continue();
