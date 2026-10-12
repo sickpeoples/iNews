@@ -1,9 +1,11 @@
 export class Artikel{
     constructor(page){
 
+        this.daftarkanal = '.navList a'
+
         this.artikel = '.cardArticle';
         this.artikelsearch = '.cardPlaylist'
-        this.artikelheadline = '.widgetNewsHeadline'
+        this.artikelheadline = 'article headline'
         this.judul = '.cardTitle';
         this.thumbnail = '.cardImg img';
 
@@ -32,5 +34,19 @@ export class Artikel{
     async namaDetailThumbnail() {
         const src = await this.detailthumbnail.getAttribute('src');
         return src.split('/').pop().split('?')[0].trim().toLowerCase();
+    }
+
+    async linkkanal(indukLocator, index) {
+        return indukLocator.locator(this.daftarkanal).nth(index).getAttribute('href');
+    }
+
+    async ambilJudul(indukLocator){
+        return await indukLocator.locator(this.judul).innerText();
+    }
+
+    async ambilGambar(induklocator){
+        const locator = induklocator.locator(this.thumbnail)
+        const linkthumbnail = await locator.getAttribute('src')
+        return linkthumbnail.split('/').pop().split('?')[0].trim().toLowerCase();
     }
 }
