@@ -10,6 +10,8 @@ export class iNews extends BasePage {
         this.search = page.getByPlaceholder('Search');
         this.kliksearch = page.locator('.icon-1.ic-search');
 
+        this.titleSubKanal = page.locator('.navLink.navLink-active');
+        this.breadcrumbs = page.locator('.breadcrumb .lastPage');
         this.headline = page.locator('.widgetNewsHeadline');
         this.loadmore = page.getByRole('button', {name : 'Load More'});
         
@@ -18,5 +20,12 @@ export class iNews extends BasePage {
         this.artikelheadline = page.getByLabel('article headline');
         this.hasilsearch = page.locator('.widgetListArticle__body')
         this.searchkey = page.locator('.searchKey');
+    }
+
+    async JudulSubKanal(){
+        return (await this.titleSubKanal.innerText()).toLowerCase();
+    }
+    async JudulBreadCrumb(){
+        return (await this.breadcrumbs.innerText()).toLowerCase();
     }
 }

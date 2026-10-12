@@ -5,7 +5,7 @@ export class Artikel{
 
         this.artikel = '.cardArticle';
         this.artikelsearch = '.cardPlaylist'
-        this.artikelheadline = 'article headline'
+        this.artikelheadline = 'article[aria-label="article headline"]';
         this.judul = '.cardTitle';
         this.thumbnail = '.cardImg img';
 
