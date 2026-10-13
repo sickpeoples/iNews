@@ -21,8 +21,7 @@ export class BasePage {
                 'googlesyndication.com',
                 'googletagservices.com',
                 'googletagmanager.com',
-                'adservice.google',
-                '/widget/desktop/'
+                'adservice.google'
             ];
 
             const apakahIniIklan = daftarIklan.some(keyword => url.includes(keyword));

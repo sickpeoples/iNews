@@ -32,7 +32,7 @@ test('Icon Share', async ({ page }) => {
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     locator.siapkanJaringan();
-    locator.bukaHalaman();
+    locator.bukaHalaman({ waitUntil: 'domcontentloaded' });
 
     const headline = locator.headline;
     const artikelheadline = artikel.artikelheadline;
@@ -42,7 +42,7 @@ test('Icon Share', async ({ page }) => {
 
     const iconShare = await locator.container.locator(artikel.iconShare).nth(1);
     await expect(iconShare).toBeVisible();
-})
+});
 
 test('Baca Juga', async ({ page }) => {
     const locator = new iNews(page);

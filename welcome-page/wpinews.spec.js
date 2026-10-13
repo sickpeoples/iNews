@@ -45,7 +45,6 @@ test.setTimeout(120000);
 });
 
 test('Latest News', async ({ page }) => {
-test.setTimeout(120000);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();

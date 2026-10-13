@@ -86,14 +86,14 @@ test('Detail Artikel Kanal', async ({ page }) => {
     const indukLocator = locator.headline;
     const selectorArtikel = artikel.artikelheadline;
 
-    const artikelnews = indukLocator.getByLabel(selectorArtikel).first();
-    await expect(artikelnews).toBeVisible();
+    const klikArtikel = await artikel.locatorThumbnailDinamic(indukLocator, selectorArtikel, 0);
+    await expect(klikArtikel).toBeVisible();
 
-    const judul = await artikel.ambilJudul(artikelnews);
-    const thumbnail = await artikel.ambilGambar(artikelnews);
+    const judul = await artikel.ambilJudul(indukLocator, 0);
+    const thumbnail = await artikel.ambilGambar(indukLocator, 0);
     console.log(`Nama judul ${judul} dan Nama gambar ${thumbnail}`);
 
-    await artikelnews.click();
+    await klikArtikel.click();
     
     const detailjudul = await artikel.detailjudul;
     await expect(detailjudul).toHaveText(judul);
