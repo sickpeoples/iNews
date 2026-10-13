@@ -9,6 +9,16 @@ export class Artikel{
         this.judul = '.cardTitle';
         this.thumbnail = '.cardImg img';
 
+        this.paragraf = 'p';
+        this.iconShare = '.iconShare';
+        this.JudulBacaJuga = '.bacaJugaExcerpt';
+        this.ThumbnailBacaJuga = 'img';
+
+        this.Pagination = '.pagination .pageList';
+        this.HalamanPagination = 'li.pageList a'
+
+        this.Tags = '.tags .tagList a'
+
         this.detailthumbnail = page.locator('.headerImg img');
         this.detailjudul = page.locator('.headerTitle');
     }
@@ -45,8 +55,26 @@ export class Artikel{
     }
 
     async ambilGambar(induklocator){
-        const locator = induklocator.locator(this.thumbnail)
+        const locator = induklocator.locator(this.thumbnail);
+        const linkthumbnail = await locator.getAttribute('src');
+        return linkthumbnail.split('/').pop().split('?')[0].trim().toLowerCase();
+    }
+
+    async ambilJudulBacaJuga(indukLocator){
+        return await indukLocator.locator(this.JudulBacaJuga).innerText();
+    }
+
+    async ambilGambarBacaJUga(indukLocator){
+        const locator = indukLocator.locator(this.ThumbnailBacaJuga);
         const linkthumbnail = await locator.getAttribute('src')
         return linkthumbnail.split('/').pop().split('?')[0].trim().toLowerCase();
+    }
+    locatorHalaman(indukLocator, nomor) {
+        return indukLocator.locator(this.HalamanPagination).getByText(String(nomor), { exact: true });    
+    }
+
+    async ambilLinkTags(indukLocator, index){
+        return indukLocator.locator(this.Tags).nth(index).getAttribute('href');
+
     }
 }

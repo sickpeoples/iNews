@@ -35,6 +35,9 @@ export class BasePage {
         });
     }
     async bukaHalaman() {
-        await this.page.goto('https://www.inews.id/');
-        }
+    await this.page.goto('https://www.inews.id/', {
+        waitUntil: 'domcontentloaded',
+        timeout: 60000
+        });
+    }
 }
