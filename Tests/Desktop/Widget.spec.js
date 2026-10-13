@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { iNews } from '../iNews';
-import { Artikel } from '../artikel';
+import { iNews } from '../../pages/desktop/iNews.js';
+import { Artikel } from '../../pages/desktop/artikel.js';
 
 test('Cek Semua Widget', async ({ page }) => {
     const locator = new iNews(page);
@@ -363,10 +363,10 @@ test('Opini', async ({ page }) => {
     const totalartikel = await opini.locator(artikel.ArtikelOpini).count();
     console.log(`Total Artikel : ${totalartikel}`);
     
-    const namajudul = await artikel.namaJudulDinamic(opini, artikel.ArtikelOpini, 0, artikel.JudulOpini);
-    const namagambar = await artikel.namaThumbnailDinamic(opini, artikel.ArtikelOpini, 0, artikel.ThumbnailOpini);
+    const namajudul = await artikel.namaOpiniJudul(opini, 0);
+    const namagambar = await artikel.namaOpiniThumbnail(opini, 0);
 
-    const klikartikel = await artikel.locatorThumbnailDinamic(opini, artikel.ArtikelOpini, 0, artikel.ThumbnailOpini);
+    const klikartikel = await opini.locator(artikel.ThumbnailOpini).nth(0);
     await klikartikel.click();
 
     const namaDetailThumbnailPhoto = await artikel.namaDetailThumbnail();

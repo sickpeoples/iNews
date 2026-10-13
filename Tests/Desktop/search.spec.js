@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { iNews } from '../iNews';
-import { Artikel } from '../artikel';
+import { iNews } from '../../pages/desktop/iNews.js';
+import { Artikel } from '../../pages/desktop/artikel.js';
 
 test('Fungsi Search', async ({ page }) => {
     const locator = new iNews(page);

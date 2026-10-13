@@ -41,21 +41,21 @@ export class Artikel{
         this.detailthumbnail = page.locator('.headerImg img');
         this.detailjudul = page.locator('.headerTitle');
     };
-    locatorJudulDinamic(indukLocator, selectorArtikel, index, JudulArtikel) {
+    locatorJudulDinamic(indukLocator, selectorArtikel, index) {
         // Logika: Masuk ke induk -> cari artikel ke-i -> cari judulnya
-        return indukLocator.locator(selectorArtikel).nth(index).locator(JudulArtikel);
+        return indukLocator.locator(selectorArtikel).nth(index).locator(this.judul);
     };
 
-    async namaJudulDinamic(indukLocator, selectorArtikel, index, JudulArtikel) {
-        const locator = this.locatorJudulDinamic(indukLocator, selectorArtikel, index, JudulArtikel);
+    async namaJudulDinamic(indukLocator, selectorArtikel, index) {
+        const locator = this.locatorJudulDinamic(indukLocator, selectorArtikel, index);
         return await locator.innerText();
     };
-    locatorThumbnailDinamic(indukLocator, selectorArtikel, index, JudulThumbnail) {
-        return indukLocator.locator(selectorArtikel).nth(index).locator(JudulThumbnail);
+    locatorThumbnailDinamic(indukLocator, selectorArtikel, index) {
+        return indukLocator.locator(selectorArtikel).nth(index).locator(this.thumbnail);
     };
 
-    async namaThumbnailDinamic(indukLocator, selectorArtikel, index, JudulThumbnail) {
-        const locator = this.locatorThumbnailDinamic(indukLocator, selectorArtikel, index, JudulThumbnail);
+    async namaThumbnailDinamic(indukLocator, selectorArtikel, index) {
+        const locator = this.locatorThumbnailDinamic(indukLocator, selectorArtikel, index);
         const linkthumbnail = await locator.getAttribute('src');
         return linkthumbnail.split('/').pop().split('?')[0].trim().toLowerCase();
     };
@@ -112,8 +112,13 @@ export class Artikel{
         return src.split('/').pop().split('?')[0].trim().toLowerCase();
     };
 
-    async namaOpiniThumbnail(index) {
-        const src = await this.ThumbnailOpini.nth(index).getAttribute('src');
+    async namaOpiniThumbnail(indukLocator, index) {
+        const src = await indukLocator.locator(this.ThumbnailOpini).nth(index).getAttribute('src');
         return src.split('/').pop().split('?')[0].trim().toLowerCase();
+    };
+
+    async namaOpiniJudul(indukLocator, index) {
+        const locator = await indukLocator.locator(this.JudulOpini).nth(index);
+        return await locator.innerText();
     };
 }
