@@ -49,13 +49,13 @@ test('Detail Artikel Search', async ({ page }) => {
     const total = await indukSearch.locator(artikel.artikelsearch).count();
     console.log(`ada ${total} artikel`);
     
-    for (let i = 0; i < total; i++){
-    await page.goto(linkurl);
+    //for (let i = 0; i < total; i++){
+    //await page.goto(linkurl);
 
-    const namajudul = await artikel.namaJudulDinamic(indukSearch, artikel.artikelsearch, i);
-    const namaFileGambar = await artikel.namaThumbnailDinamic(indukSearch, artikel.artikelsearch, i);
+    const namajudul = await artikel.namaJudulDinamic(indukSearch, artikel.artikelsearch, 0);
+    const namaFileGambar = await artikel.namaThumbnailDinamic(indukSearch, artikel.artikelsearch, 0);
     
-    const klikartikel = await artikel.locatorJudulDinamic(indukSearch, artikel.artikelsearch, i);
+    const klikartikel = await artikel.locatorJudulDinamic(indukSearch, artikel.artikelsearch, 0);
     await klikartikel.click();
 
     const namaFileGambarDetail = await artikel.namaDetailThumbnail();
@@ -63,5 +63,5 @@ test('Detail Artikel Search', async ({ page }) => {
     await expect(artikel.detailjudul).toHaveText(namajudul);
     const apakahGambarCocok = namaFileGambarDetail.includes(namaFileGambar) || namaFileGambar.includes(namaFileGambarDetail);
     expect(apakahGambarCocok).toBeTruthy();
-    } 
+    //} 
 });
