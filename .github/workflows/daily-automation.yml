@@ -39,8 +39,8 @@ jobs:
       - name: Install browsers
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Generate Screenshot Baselines
-        run: npx playwright test --update-snapshots
+      - name: Run Playwright Tests
+        run: npx playwright test
         env:
           CI: 'true'
 
