@@ -5,7 +5,5 @@
 Tests/Desktop/DetailArtikel.spec.js-snapshots/
 Tests/Desktop/wpinews.spec.js-snapshots/
 node_modules/
-allure-results/
-allure-report/
 playwright-report/
 test-results/
