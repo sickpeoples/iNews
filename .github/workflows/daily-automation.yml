@@ -3,7 +3,7 @@ name: Daily iNews Automation
 
 on:
   schedule:
-    - cron: '30 14 * * 1-5'
+    - cron: '50 14 * * 1-5'
       timezone: 'Asia/Jakarta'
 
   workflow_dispatch:
