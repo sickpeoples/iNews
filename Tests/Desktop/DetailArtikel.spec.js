@@ -5,8 +5,8 @@ import { Artikel } from '../../pages/desktop/artikel.js';
 test('Detail Artikel', async ({ page }) => {
     const locator = new iNews(page);
     const artikel = new Artikel(page);
-    locator.siapkanJaringan();
-    locator.bukaHalaman();
+    await locator.siapkanJaringan();
+    await locator.bukaHalaman();
 
     const headline = locator.headline;
     const artikelheadline = artikel.artikelheadline;
@@ -31,8 +31,9 @@ test('Detail Artikel', async ({ page }) => {
 test('Icon Share', async ({ page }) => {
     const locator = new iNews(page);
     const artikel = new Artikel(page);
-    locator.siapkanJaringan();
-    locator.bukaHalaman({ waitUntil: 'domcontentloaded' });
+    
+    await locator.siapkanJaringan();
+    await locator.bukaHalaman({ waitUntil: 'domcontentloaded' });
 
     const headline = locator.headline;
     const artikelheadline = artikel.artikelheadline;
@@ -56,22 +57,50 @@ test('Baca Juga', async ({ page }) => {
     const klikArtikel = await artikel.locatorThumbnailDinamic(headline, artikelheadline, 0);
     await klikArtikel.click();
 
-    const bacajuga = locator.bodyartikel.locator(locator.widgetBacaJuga).nth(0);
+    const bacajuga = await locator.container.locator(locator.widgetBacaJuga).first();
 
     const judul = await artikel.ambilJudulBacaJuga(bacajuga, 0);
     const thumbnail = await artikel.ambilGambarBacaJUga(bacajuga, 0);
-
     await expect(bacajuga).toBeVisible();
     console.log(`judul ${judul} dan gambar ${thumbnail}`);
 
-    await bacajuga.click();
+    const linkbacajuga = await bacajuga.getAttribute('href');
 
-    await expect(artikel.detailjudul).toBeVisible();
+    await page.goto(linkbacajuga, { waitUntil: 'domcontentloaded' });
 
-    const DetailGambar = await artikel.namaDetailThumbnail();
+        const iShort = locator.iShort.locator(artikel.VideoiShort);
+        const berita = locator.container.locator(artikel.artikel);
 
-    await expect(artikel.detailjudul).toHaveText(judul);
-    await expect(DetailGambar).toContain(thumbnail);
+    // Tunggu sampai salah satu jenis konten muncul
+    //await expect(bacajuga.locator(`${artikel.VideoiShort}, ${artikel.artikel}`).first()).toBeVisible({ timeout: 15000 });
+    if (await iShort.first().isVisible()) {
+        await test.step('Skenario A - iShort', async () => {
+            console.log('Widget berisi iShort');
+
+            await expect(iShort.first()).toBeVisible();
+
+        await expect(artikel.DetailJuduliShort.first()).toHaveText(judul);
+        });
+
+    } else if (await berita.first().isVisible()) {
+        await test.step('Skenario B - Artikel', async () => {
+            console.log('Widget berisi Artikel');
+
+            await expect(berita.first()).toBeVisible();
+
+            //await bacajuga.click();
+
+            await expect(artikel.detailjudul).toBeVisible();
+
+            const DetailGambar = await artikel.namaDetailThumbnail();
+
+            await expect(artikel.detailjudul).toHaveText(judul);
+            await expect(DetailGambar).toContain(thumbnail);
+        });
+
+    } else {
+        throw new Error('Jenis konten widget tidak dikenali');
+    }
 });
 
 test('Pagination', async ({ page }) => {

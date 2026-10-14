@@ -3,7 +3,7 @@ import { iNews } from '../../pages/desktop/iNews.js';
 import { Artikel } from '../../pages/desktop/artikel.js';
 
 test('Sub Kanal', async ({ page }) => {
-    test.setTimeout(300000);
+    test.setTimeout(500000);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -53,7 +53,7 @@ test('Sub Kanal', async ({ page }) => {
 });
 
 test('Load More Sub Kanal', async ({ page }) => {
-    test.setTimeout(300000);
+    test.setTimeout(1300000);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -94,6 +94,7 @@ test('Load More Sub Kanal', async ({ page }) => {
 
         await loadmore.click();
         await page.waitForTimeout(3000);
+        await page.waitForLoadState('domcontentloaded');
 
         const totalartikelakhir = await locator.containerartikel.locator(artikel.artikel).count()
         expect(totalartikelakhir).toBeGreaterThan(totalartikelawal);

@@ -11,7 +11,7 @@ export class iNews extends BasePage {
         this.search = page.getByPlaceholder('Search');
         this.kliksearch = page.locator('.icon-1.ic-search');
 
-        this.widgetBacaJuga = page.locator('.bacaJuga');
+        this.widgetBacaJuga = page.locator('.bacaJuga a');
         this.bodyartikel = page.locator('.bodyArticleWrapper');
 
         this.titleSubKanal = page.locator('.navLink.navLink-active');

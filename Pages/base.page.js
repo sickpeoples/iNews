@@ -4,35 +4,58 @@ export class BasePage {
         this.failedAssets = [];
     }
 
-    async siapkanJaringan() {
-        this.page.on('response', response => {
-            const url = response.url();
-            if ((url.endsWith('.woff2') || url.endsWith('.svg')) && !response.ok()) {
-                this.failedAssets.push(url);
-            }
-        });
+async siapkanJaringan() {
+    // Monitoring asset yang gagal
+    this.page.on('response', response => {
+        const url = response.url();
 
-        await this.page.route('**/*', (route) => {
-            const url = route.request().url();
-            
-            const daftarIklan = [
-                'googleads',
-                'doubleclick.net',
-                'googlesyndication.com',
-                'googletagservices.com',
-                'googletagmanager.com',
-                'adservice.google'
-            ];
+        if (
+            /\.(woff2?|svg)(\?|$)/i.test(url) &&
+            !response.ok()
+        ) {
+            this.failedAssets.push(url);
+        }
+    });
 
-            const apakahIniIklan = daftarIklan.some(keyword => url.includes(keyword));
+    // Domain layanan iklan
+    const domainIklan = [
+        'doubleclick.net',
+        'googlesyndication.com',
+        'googletagservices.com',
+        'googleadservices.com',
+        'adservice.google.com',
+        'adservice.google.co.id',
+        'mgid.com',
+        'izooto.com',
+        'google_vignette',
+        'cm.g.doubleclick.net'
+    ];
 
-            if (apakahIniIklan) {
-                route.abort();
-            } else {
-                route.continue();
-            }
-        });
-    }
+    await this.page.route('**/*', async route => {
+        const url = route.request().url();
+
+        let hostname;
+
+        try {
+            hostname = new URL(url).hostname.toLowerCase();
+        } catch {
+            await route.continue();
+            return;
+        }
+
+        const apakahIklan = domainIklan.some(domain =>
+            hostname === domain ||
+            hostname.endsWith(`.${domain}`)
+        );
+
+        if (apakahIklan) {
+            console.log(`ADS BLOCKED: ${url}`);
+            await route.abort();
+        } else {
+            await route.continue();
+        }
+    });
+}
     async bukaHalaman() {
     await this.page.goto('https://www.inews.id/', {
         waitUntil: 'domcontentloaded',
