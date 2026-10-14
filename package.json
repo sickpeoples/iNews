@@ -1,0 +1,26 @@
+{
+  "name": "inews",
+  "version": "1.0.0",
+  "description": "",
+  "main": "playwright.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sickpeoples/iNews.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sickpeoples/iNews/issues"
+  },
+  "homepage": "https://github.com/sickpeoples/iNews#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "allure-commandline": "^2.46.1",
+    "allure-playwright": "^3.13.0"
+  }
+}
