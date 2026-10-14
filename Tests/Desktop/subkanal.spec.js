@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { iNews } from '../../pages/desktop/iNews.js';
-import { Artikel } from '../../pages/desktop/artikel.js';
+import { iNews } from '../../Pages/Desktop/iNews.js';
+import { Artikel } from '../../Pages/Desktop/artikel.js';
 
 test('Sub Kanal', async ({ page }) => {
     test.setTimeout(500000);
