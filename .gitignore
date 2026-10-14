@@ -1,9 +1,5 @@
-/allure-report/
-/allure-results/
-/Detail-Artikel/DetailArtikel.spec.js-snapshots
-/welcome-page/wpinews.spec.js-snapshots
-Tests/Desktop/DetailArtikel.spec.js-snapshots/
-Tests/Desktop/wpinews.spec.js-snapshots/
 node_modules/
 playwright-report/
 test-results/
+allure-results/
+allure-report/
