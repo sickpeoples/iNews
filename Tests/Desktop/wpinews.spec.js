@@ -5,6 +5,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 test('Welcome Page', async ({ page }) => {
 test.setTimeout(120000);
     const locator = new iNews(page);
+    await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
     await expect(locator.header).toBeVisible();
