@@ -29,7 +29,6 @@ async siapkanJaringan() {
         'izooto.com',
         'google_vignette',
         'cm.g.doubleclick.net',
-        'embed.rctiplus.com'
     ];
 
     await this.page.route('**/*', async route => {
