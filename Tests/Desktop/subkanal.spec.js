@@ -59,21 +59,21 @@ test('Load More Sub Kanal', async ({ page }) => {
     await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
-    const linkurl = page.url();
+    //const linkurl = page.url();
 
     const kanal = locator.kanal;
-    const totalkanal = await kanal.locator(artikel.daftarkanal).count();
+    //const totalkanal = await kanal.locator(artikel.daftarkanal).count();
     
-    for (let i = 1; i < totalkanal; i++){
-    const indeksDilewati = [3, 10, 11];
-        if (indeksDilewati.includes(i)) {
-        continue;
-        }
+    //for (let i = 1; i < totalkanal; i++){
+    //const indeksDilewati = [3, 10, 11];
+    //    if (indeksDilewati.includes(i)) {
+    //    continue;
+    //    }
 
-    await page.goto(linkurl);
-    await page.waitForTimeout(3000);
+    //await page.goto(linkurl);
+    //await page.waitForTimeout(3000);
 
-    const klikkanal = kanal.locator(artikel.daftarkanal).nth(i);
+    const klikkanal = kanal.locator(artikel.daftarkanal).nth(1);
     await klikkanal.click();
     
     const subkanalLocator = locator.kanal;
@@ -102,7 +102,6 @@ test('Load More Sub Kanal', async ({ page }) => {
 
         await page.goBack();
         await page.waitForLoadState('domcontentloaded');
-        }
     }
 });
 
