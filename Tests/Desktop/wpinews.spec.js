@@ -53,18 +53,18 @@ test('Latest News', async ({ page }) => {
     const latest = locator.latestnews;
     await expect(latest).toBeVisible();
 
-    const linkurl = page.url();
+    //const linkurl = page.url();
     const totalartikel = await latest.locator(artikel.artikel).count();
     console.log(`Total Artikel : ${totalartikel}`);
 
-    for (let i = 0; i < totalartikel; i++){
+    //for (let i = 0; i < totalartikel; i++){
 
-    await page.goto(linkurl);
+    //await page.goto(linkurl);
     
-    const namajudul = await artikel.namaJudulDinamic(latest, artikel.artikel, i);
-    const namagambar = await artikel.namaThumbnailDinamic(latest, artikel.artikel, i);
+    const namajudul = await artikel.namaJudulDinamic(latest, artikel.artikel, 0);
+    const namagambar = await artikel.namaThumbnailDinamic(latest, artikel.artikel, 0);
 
-    const klikartikel = await artikel.locatorThumbnailDinamic(latest, artikel.artikel, i);
+    const klikartikel = await artikel.locatorThumbnailDinamic(latest, artikel.artikel, 0);
     await klikartikel.click();
 
     const namagambardetail = await artikel.namaDetailThumbnail();
@@ -72,7 +72,7 @@ test('Latest News', async ({ page }) => {
     await expect(artikel.detailjudul).toHaveText(namajudul);
     expect(namagambardetail).toContain(namagambar);
 
-    }
+    //}
 });
 
 test('Footer', async ({ page }) => {

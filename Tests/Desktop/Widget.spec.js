@@ -32,14 +32,14 @@ test('iNews Livestream', async ({ page }) => {
     await locator.bukaHalaman();
 
     const linkIframe = await locator.linkIframe();
-    await page.goto(linkIframe, {waitUntil: 'domcontentloaded'});
+    //await page.goto(linkIframe, {waitUntil: 'domcontentloaded'});
 
-    await expect(page.locator(artikel.ArtikelTV)).toBeVisible();
-    await expect(page.locator(artikel.artikel).first()).toBeVisible();
-    await expect(page.locator(artikel.thumbnail).first()).toBeVisible();
-    await expect(page.locator(artikel.Livestream)).toBeVisible();
+    await expect(locator.widgetTV.locator(artikel.ArtikelTV)).toBeVisible();
+    await expect(locator.widgetTV.locator(artikel.artikel).first()).toBeVisible();
+    await expect(locator.widgetTV.locator(artikel.thumbnail).first()).toBeVisible();
+    await expect(locator.widgetTV.locator(artikel.Livestream)).toBeVisible();
 
-    const klikLivestream = await page.locator(artikel.Livestream);
+    const klikLivestream = await locator.widgetTV.locator(artikel.Livestream);
     await klikLivestream.click();
 
     await expect(locator.Livestreaming).toBeVisible();

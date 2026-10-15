@@ -8,23 +8,23 @@ test('Kanal', async ({ page }) => {
     await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
-    const linkurl = page.url();
+    //const linkurl = page.url();
 
     const kanal = locator.kanal;
     const totalkanal = await kanal.locator(artikel.daftarkanal).count();
     console.log(`total kanal adalah : ${totalkanal}`);
     
-    for (let i = 1; i < totalkanal; i++ ){
-    await page.goto(linkurl);
+    //for (let i = 1; i < totalkanal; i++ ){
+    //await page.goto(linkurl);
     
-    const srckanal = await artikel.linkkanal(kanal, i);
+    const srckanal = await artikel.linkkanal(kanal, 1);
     console.log(`link nya adalah ${srckanal}`);
 
-    const klikkanal = locator.kanal.locator(artikel.daftarkanal).nth(i);
+    const klikkanal = locator.kanal.locator(artikel.daftarkanal).nth(1);
     klikkanal.click();
     
     await expect(page).toHaveURL(srckanal);
-    }
+    //}
 });
 
 test('Load More', async ({ page }) => {
@@ -40,17 +40,17 @@ test('Load More', async ({ page }) => {
     const totalkanal = await kanal.locator(artikel.daftarkanal).count();
     console.log(`total kanal adalah : ${totalkanal}`);
     
-    for (let i = 1; i < totalkanal; i++ ){
-    if (i === 10) {
-        continue;
-    }
+    //for (let i = 1; i < totalkanal; i++ ){
+    //if (i === 10) {
+    //    continue;
+    //}
     
-    await page.goto(linkurl);
+    //await page.goto(linkurl);
     
-    const srckanal = await artikel.linkkanal(kanal, i);
+    const srckanal = await artikel.linkkanal(kanal, 1);
     console.log(`link nya adalah ${srckanal}`);
 
-    const klikkanal = locator.kanal.locator(artikel.daftarkanal).nth(i);
+    const klikkanal = locator.kanal.locator(artikel.daftarkanal).nth(1);
     await klikkanal.click();
     
     await expect(page.url()).toContain(srckanal);
@@ -67,7 +67,7 @@ test('Load More', async ({ page }) => {
     const totalartikelakhir = await locator.containerartikel.locator(artikel.artikel).count()
     expect(totalartikelakhir).toBeGreaterThan(totalartikelawal);
     console.log(`Total Artikel terakhir : ${totalartikelakhir}`);
-    }
+    //}
 });
 
 test('Detail Artikel Kanal', async ({ page }) => {

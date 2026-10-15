@@ -16,7 +16,7 @@ test('Detail Artikel', async ({ page }) => {
     const klikArtikel = await artikel.locatorThumbnailDinamic(headline, artikelheadline, 0);
     console.log(`judul ${judulArtikel} dan thumbnail ${thumbnailArtikel}`);
 
-    await klikArtikel.click();
+    await klikArtikel.click({ waitUntil: 'domcontentloaded' });
     
     const detailthumbnail = await artikel.namaDetailThumbnail();
     await expect(artikel.detailjudul).toHaveText(judulArtikel);
@@ -33,15 +33,15 @@ test('Icon Share', async ({ page }) => {
     const artikel = new Artikel(page);
     
     await locator.siapkanJaringan();
-    await locator.bukaHalaman({ waitUntil: 'domcontentloaded' });
+    await locator.bukaHalaman();
 
     const headline = locator.headline;
     const artikelheadline = artikel.artikelheadline;
 
     const klikArtikel = await artikel.locatorThumbnailDinamic(headline, artikelheadline, 0);
-    await klikArtikel.click();
+    await klikArtikel.click({ waitUntil: 'domcontentloaded' });
 
-    const iconShare = await locator.container.locator(artikel.iconShare).nth(1);
+    const iconShare = await page.locator(artikel.iconShare).nth(1);
     await expect(iconShare).toBeVisible();
 });
 

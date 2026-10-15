@@ -49,7 +49,7 @@ async siapkanJaringan() {
         );
 
         if (apakahIklan) {
-            console.log(`ADS BLOCKED: ${url}`);
+            //console.log(`ADS BLOCKED: ${url}`);
             await route.abort();
         } else {
             await route.continue();

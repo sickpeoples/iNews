@@ -29,7 +29,8 @@ export class iNews extends BasePage {
         this.SpesialBola = page.locator('.widgetListArticle.col')
                         .filter({has: page.locator('h3:has-text("Spesial Bola")')});
 
-        this.frameTV = page.locator('iframe[title="Widget News TV"]');
+        this.widgetTV = page.locator('#widget-inews-tv-streaming');
+        this.frameTV = this.widgetTV.locator('iframe');
         this.Livestreaming = page.locator('#YTnewsContainer');
         this.FrameOkeZone = page.frameLocator('#iframeList');
         this.PopularNews = page.locator('.widgetPopular');
