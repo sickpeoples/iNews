@@ -141,7 +141,7 @@ test.setTimeout(300000);
 
         await expect(artikel.detailjudul).toHaveText(namajudul);
         const apakahGambarCocok = namaFileGambarDetail.includes(namaFileGambar) || namaFileGambar.includes(namaFileGambarDetail);
-        expect(apakahGambarCocok).toBeTruthy();
+        expect.soft(apakahGambarCocok).toBeTruthy();
 
         await page.goBack();
         await page.waitForLoadState('domcontentloaded');

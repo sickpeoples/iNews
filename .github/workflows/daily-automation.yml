@@ -2,9 +2,6 @@
 name: Daily iNews Automation
 
 on:
-  schedule:
-    - cron: '30 02 * * 1-5'
-
   workflow_dispatch:
 
 permissions:
