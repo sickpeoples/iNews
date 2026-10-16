@@ -8,7 +8,7 @@ test.setTimeout(120000);
     await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
-    await expect(locator.header).toBeVisible();
+    await expect(locator.header).toBeVisible({ waitUntil: 'domcontentloaded' });
     await expect(locator.header).toHaveScreenshot('Header-WP.png');
     await expect(locator.headline).toBeVisible();
     await expect(locator.latestnews).toBeVisible();
@@ -81,6 +81,18 @@ test('Footer', async ({ page }) => {
     await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
-    await expect(locator.footer).toBeVisible();
+    await locator.footer.scrollIntoViewIfNeeded();
+    await expect(locator.footer).toBeVisible({ waitUntil: 'domcontentloaded' });
+
+    if (page.locator('.stickyAds-wp').isVisible()) {
+        await page.locator('#closeAds').click();
+    }
+
+    if (page.locator('#YTnewsContainer').isVisible()) {
+        await page.locator('#YTnewsClose').click();
+    } else {
+        console.log('Tidak ada iklan');
+    }
+
     await expect(locator.footer).toHaveScreenshot('WelcomePage-Footer.png');
 });
