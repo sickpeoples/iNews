@@ -84,14 +84,16 @@ test('Footer', async ({ page }) => {
     await locator.footer.scrollIntoViewIfNeeded();
     await expect(locator.footer).toBeVisible({ waitUntil: 'domcontentloaded' });
 
-    if (page.locator('.stickyAds-wp').isVisible()) {
+    if (await page.locator('.stickyAds-wp').isVisible()) {
         await page.locator('#closeAds').click();
     }
 
-    if (page.locator('#YTnewsContainer').isVisible()) {
-        await page.locator('#YTnewsClose').click();
+    const closeYTnews = page.locator('#YTnewsClose');
+
+    if (await closeYTnews.isVisible()) {
+        await closeYTnews.click();
     } else {
-        console.log('Tidak ada iklan');
+        console.log('Pop-up tidak muncul');
     }
 
     await expect(locator.footer).toHaveScreenshot('WelcomePage-Footer.png');
