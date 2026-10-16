@@ -35,22 +35,10 @@ jobs:
       - name: Install browsers
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Update Header Footer Baselines
-        run: |
-            npx playwright test Tests/Desktop/wpinews.spec.js \
-              --project="Desktop Chrome" \
-              --grep "Header|Footer" \
-              --update-snapshots
+      - name: Run Playwright Tests
+        run: npx playwright test
         env:
           CI: 'true'
-
-      - name: Upload Updated Baselines
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: updated-baselines
-          path: Tests/Desktop/wpinews.spec.js-snapshots/
-          if-no-files-found: warn
 
       - name: Generate Allure Report
         if: always()
