@@ -126,7 +126,7 @@ jobs:
       - name: Validate report and history
         id: verify
         run: |
-          test -s allure-report-experiment/allure2/index.html
+          test -s allure-report-experiment/index.html
           test -s allure-history/history.jsonl
           echo 'ready=true' >> "$GITHUB_OUTPUT"
           echo 'Allure Classic report and history are ready.'
@@ -143,7 +143,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-experiment-report
-          path: allure-report-experiment/allure2/
+          path: allure-report-experiment/
           retention-days: 30
           if-no-files-found: error
 
