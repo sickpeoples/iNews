@@ -20,6 +20,7 @@
   "homepage": "https://github.com/sickpeoples/iNews#readme",
   "devDependencies": {
     "@playwright/test": "^1.64.0",
+    "allure": "3.20.1",
     "allure-playwright": "^3.13.0"
   }
 }
