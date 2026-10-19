@@ -100,6 +100,29 @@ jobs:
           find allure-results -name '*-result.json' -print -quit | grep -q .
           npx allure generate ./allure-results --config ./allurerc.experiment.mjs
 
+          
+      - name: Debug Allure Output
+        if: always()
+        run: |
+          echo "=== Allure Report Files ==="
+          if [ -d allure-report-experiment ]; then
+            find allure-report-experiment -maxdepth 4 -type f
+          else
+            echo "Report directory not found"
+          fi
+
+          echo "=== History ==="
+          if [ -f allure-history/history.jsonl ]; then
+            wc -l allure-history/history.jsonl
+          else
+            echo "History file not found"
+          fi
+
+          echo "=== Generated HTML ==="
+          find . -path './node_modules' -prune -o \
+            -name index.html -print
+
+
       - name: Validate report and history
         id: verify
         run: |
