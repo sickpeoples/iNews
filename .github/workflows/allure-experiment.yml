@@ -1,0 +1,166 @@
+name: Allure Report Experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_pages:
+        description: 'Publish the report to GitHub Pages?'
+        type: boolean
+        default: false
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: allure-experiment-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test-and-report:
+    name: Test and generate Allure Classic
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    outputs:
+      report_ready: ${{ steps.verify.outputs.ready }}
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Allure 3 CLI
+        run: |
+          npx allure --version
+          npm ls allure allure-playwright --depth=0
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Find latest prior experiment history
+        id: previous
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const branch = context.ref.replace('refs/heads/', '');
+            const { data } = await github.rest.actions.listWorkflowRuns({
+              owner, repo,
+              workflow_id: 'allure-experiment.yml',
+              branch,
+              status: 'completed',
+              per_page: 30,
+            });
+            for (const run of data.workflow_runs) {
+              if (run.id === context.runId) continue;
+              const result = await github.rest.actions.listWorkflowRunArtifacts({
+                owner, repo, run_id: run.id, per_page: 100,
+              });
+              const match = result.data.artifacts.find(
+                artifact => artifact.name === 'allure-experiment-history' && !artifact.expired
+              );
+              if (match) {
+                core.setOutput('run_id', String(run.id));
+                core.info(`Restoring history from run ${run.id}`);
+                return;
+              }
+            }
+            core.info('No previous history artifact: first run or artifact expired.');
+
+      - name: Restore previous history
+        if: ${{ steps.previous.outputs.run_id != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-experiment-history
+          path: allure-history
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.previous.outputs.run_id }}
+
+      - name: Run Playwright tests
+        id: tests
+        continue-on-error: true
+        env:
+          CI: 'true'
+        run: |
+          rm -rf allure-results allure-report-experiment
+          npx playwright test
+
+      - name: Generate Allure 3 Classic report
+        run: |
+          test -d allure-results
+          find allure-results -name '*-result.json' -print -quit | grep -q .
+          npx allure generate ./allure-results --config ./allurerc.experiment.mjs
+
+      - name: Validate report and history
+        id: verify
+        run: |
+          test -s allure-report-experiment/allure2/index.html
+          test -s allure-history/history.jsonl
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
+          echo 'Allure Classic report and history are ready.'
+
+      - name: Save history for the next run
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-experiment-history
+          path: allure-history/history.jsonl
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Save report for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-experiment-report
+          path: allure-report-experiment/allure2/
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Preserve Playwright failure status
+        if: ${{ steps.tests.outcome == 'failure' }}
+        run: |
+          echo 'Some Playwright tests failed; report/history were still saved.'
+          exit 1
+
+  publish:
+    name: Deploy experiment to GitHub Pages
+    needs: test-and-report
+    if: ${{ always() && inputs.publish_pages == true && needs.test-and-report.outputs.report_ready == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download verified HTML report
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-experiment-report
+          path: ./site
+
+      - name: Check website entry point
+        run: test -s ./site/index.html
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
