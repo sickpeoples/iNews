@@ -13,6 +13,7 @@ permissions:
   contents: read
   actions: read
 
+# Prevent two experiment runs from restoring and overwriting the same history at once.
 concurrency:
   group: allure-experiment-${{ github.ref }}
   cancel-in-progress: false
@@ -100,28 +101,17 @@ jobs:
           find allure-results -name '*-result.json' -print -quit | grep -q .
           npx allure generate ./allure-results --config ./allurerc.experiment.mjs
 
-          
       - name: Debug Allure Output
         if: always()
         run: |
-          echo "=== Allure Report Files ==="
-          if [ -d allure-report-experiment ]; then
-            find allure-report-experiment -maxdepth 4 -type f
-          else
-            echo "Report directory not found"
-          fi
-
-          echo "=== History ==="
+          echo '=== Generated HTML ==='
+          find allure-report-experiment -name index.html -print 2>/dev/null || true
+          echo '=== History ==='
           if [ -f allure-history/history.jsonl ]; then
             wc -l allure-history/history.jsonl
           else
-            echo "History file not found"
+            echo 'History file not found'
           fi
-
-          echo "=== Generated HTML ==="
-          find . -path './node_modules' -prune -o \
-            -name index.html -print
-
 
       - name: Validate report and history
         id: verify
@@ -154,10 +144,11 @@ jobs:
           exit 1
 
   publish:
-    name: Deploy experiment to GitHub Pages
+    name: Deploy latest report and 7-day archive
     needs: test-and-report
     if: ${{ always() && inputs.publish_pages == true && needs.test-and-report.outputs.report_ready == 'true' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       actions: read
@@ -167,14 +158,38 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Download verified HTML report
+      # This job uses the script from the selected experiment branch.
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Download verified latest report
         uses: actions/download-artifact@v4
         with:
           name: allure-experiment-report
-          path: ./site
+          path: ./current-report
 
-      - name: Check website entry point
-        run: test -s ./site/index.html
+      - name: Build latest report and 7-day archive
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+          REPORT_ARCHIVE_BRANCH: ${{ github.ref_name }}
+          REPORT_ARCHIVE_WORKFLOW: allure-experiment.yml
+          REPORT_ARCHIVE_DAYS: '7'
+          REPORT_CURRENT_DIR: ./current-report
+          REPORT_SITE_DIR: ./site
+        run: node scripts/build-report-archive.mjs
+
+      - name: Verify Pages website
+        run: |
+          test -s ./site/index.html
+          test -s ./site/archive/index.html
+          test -s "./site/runs/${GITHUB_RUN_ID}/index.html"
+          echo 'Latest, archive index, and current run archive verified.'
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
