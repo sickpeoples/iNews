@@ -5,6 +5,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 test('Fungsi Search', async ({ page }) => {
     const locator = new iNews(page);
     const artikel = new Artikel(page);
+    await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
     const nyari = 'Prabowo'
@@ -13,6 +14,8 @@ test('Fungsi Search', async ({ page }) => {
     await locator.search.fill(nyari);
     
     await locator.kliksearch.click();
+
+    await page.waitForLoadState('domcontentloaded');
 
     await expect(locator.searchkey).toHaveText(nyari);
     
@@ -34,6 +37,7 @@ test('Detail Artikel Search', async ({ page }) => {
     test.setTimeout(120000)
     const locator = new iNews(page);
     const artikel = new Artikel(page);
+    await locator.siapkanJaringan();
     await locator.bukaHalaman();
 
     const nyari = 'Prabowo'
@@ -41,6 +45,8 @@ test('Detail Artikel Search', async ({ page }) => {
     await locator.search.fill(nyari);
     
     await locator.kliksearch.click();
+    await page.waitForLoadState('domcontentloaded');
+
     const linkurl = page.url();
 
     const indukSearch = locator.hasilsearch;
