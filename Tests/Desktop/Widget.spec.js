@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { iNews } from '../../Pages/Desktop/iNews.js';
 import { Artikel } from '../../Pages/Desktop/artikel.js';
+import * as allure from 'allure-js-commons';
+import { Severity } from 'allure-js-commons';
 
 test('Cek Semua Widget', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
 
     await locator.siapkanJaringan();
@@ -26,6 +29,7 @@ test('Cek Semua Widget', async ({ page }) => {
 });
 
 test('iNews Livestream', async ({ page }) => {
+    await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -46,6 +50,7 @@ test('iNews Livestream', async ({ page }) => {
 });
 
 test('Daerah', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -68,6 +73,7 @@ test('Daerah', async ({ page }) => {
 });
 
 test('iNews Network', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -92,6 +98,7 @@ test('iNews Network', async ({ page }) => {
 //BREAKING NEWS
 
 test('Spesial Bola', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -119,6 +126,7 @@ test('Spesial Bola', async ({ page }) => {
 //HOT NEWS
 
 test('Popular News', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -141,6 +149,7 @@ test('Popular News', async ({ page }) => {
 });
 
 test('iShort', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -158,6 +167,7 @@ test('iShort', async ({ page }) => {
 });
 
 test('Latest News', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -182,7 +192,8 @@ test('Latest News', async ({ page }) => {
 });
 
 test('Berita di Sekitarmu', async ({ page, context }) => {
-test.setTimeout(180000);
+    await allure.severity(Severity.NORMAL);
+    test.setTimeout(180000);
 
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -251,6 +262,7 @@ test.setTimeout(180000);
 });
 
 test('Video Highlights', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
 
     await locator.siapkanJaringan();
@@ -270,6 +282,7 @@ test('Video Highlights', async ({ page }) => {
 });
 
 test('Editor Choice', async ({ page }) => {
+    await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     
@@ -295,6 +308,7 @@ test('Editor Choice', async ({ page }) => {
 });
 
 test('Photo', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     
@@ -323,6 +337,7 @@ test('Photo', async ({ page }) => {
 });
 
 test('InfoGraphic', async ({ page }) => {
+    await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     
@@ -351,6 +366,7 @@ test('InfoGraphic', async ({ page }) => {
 });
 
 test('Opini', async ({ page }) => {
+    await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     

@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { iNews } from '../../Pages/Desktop/iNews.js';
 import { Artikel } from '../../Pages/Desktop/artikel.js';
+import * as allure from 'allure-js-commons';
+import { Severity } from 'allure-js-commons';
 
 test('Detail Artikel', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -29,6 +32,7 @@ test('Detail Artikel', async ({ page }) => {
 });
 
 test('Icon Share', async ({ page }) => {
+    await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     
@@ -46,6 +50,7 @@ test('Icon Share', async ({ page }) => {
 });
 
 test('Baca Juga', async ({ page }) => {
+    await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -71,8 +76,6 @@ test('Baca Juga', async ({ page }) => {
         const iShort = locator.iShort.locator(artikel.VideoiShort);
         const berita = locator.container.locator(artikel.artikel);
 
-    // Tunggu sampai salah satu jenis konten muncul
-    //await expect(bacajuga.locator(`${artikel.VideoiShort}, ${artikel.artikel}`).first()).toBeVisible({ timeout: 15000 });
     if (await iShort.first().isVisible()) {
         await test.step('Skenario A - iShort', async () => {
             console.log('Widget berisi iShort');
@@ -88,8 +91,6 @@ test('Baca Juga', async ({ page }) => {
 
             await expect(berita.first()).toBeVisible();
 
-            //await bacajuga.click();
-
             await expect(artikel.detailjudul).toBeVisible();
 
             const DetailGambar = await artikel.namaDetailThumbnail();
@@ -104,6 +105,7 @@ test('Baca Juga', async ({ page }) => {
 });
 
 test('Pagination', async ({ page }) => {
+        await allure.severity(Severity.NORMAL);
         const locator = new iNews(page);
         const artikel = new Artikel(page);
         await locator.siapkanJaringan();
@@ -155,6 +157,7 @@ test('Pagination', async ({ page }) => {
 });
 
 test('Fungsi Tags', async ({ page }) => {
+    await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -182,6 +185,7 @@ test('Fungsi Tags', async ({ page }) => {
 });
 
 test('Related News', async ({ page }) => {
+    await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -207,6 +211,7 @@ test('Related News', async ({ page }) => {
 });
 
 test('Latest News', async ({ page }) => {
+    await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
