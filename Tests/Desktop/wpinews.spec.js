@@ -1,9 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { iNews } from '../../Pages/Desktop/iNews.js';
 import { Artikel } from '../../Pages/Desktop/artikel.js';
+import * as allure from 'allure-js-commons';
+import { Severity } from 'allure-js-commons';
 
 test('Welcome Page', async ({ page }) => {
 test.setTimeout(120000);
+await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     await locator.siapkanJaringan();
     await locator.bukaHalaman();
@@ -16,6 +19,7 @@ test.setTimeout(120000);
 
 test('Headline', async ({ page }) => {
 test.setTimeout(120000);
+await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -46,6 +50,7 @@ test.setTimeout(120000);
 });
 
 test('Latest News', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -77,6 +82,7 @@ test('Latest News', async ({ page }) => {
 });
 
 test('Footer', async ({ page }) => {
+    await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     await locator.siapkanJaringan();
     await locator.bukaHalaman();

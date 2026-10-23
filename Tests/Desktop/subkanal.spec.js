@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { iNews } from '../../Pages/Desktop/iNews.js';
 import { Artikel } from '../../Pages/Desktop/artikel.js';
+import * as allure from 'allure-js-commons';
+import { Severity } from 'allure-js-commons';
 
 test('Sub Kanal', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     test.setTimeout(500000);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -53,6 +56,7 @@ test('Sub Kanal', async ({ page }) => {
 });
 
 test('Load More Sub Kanal', async ({ page }) => {
+    await allure.severity(Severity.MINOR);
     test.setTimeout(1300000);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -97,7 +101,7 @@ test('Load More Sub Kanal', async ({ page }) => {
         await page.waitForLoadState('domcontentloaded');
 
         const totalartikelakhir = await locator.containerartikel.locator(artikel.artikel).count()
-        expect(totalartikelakhir).toBeGreaterThan(totalartikelawal);
+        expect.soft(totalartikelakhir).toBeGreaterThan(totalartikelawal);
         console.log(`Total Artikel terakhir : ${totalartikelakhir}`);
 
         await page.goBack();
@@ -107,6 +111,7 @@ test('Load More Sub Kanal', async ({ page }) => {
 
 test('Detail Artikel Sub Kanal', async ({ page }) => {
 test.setTimeout(300000);
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();

@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { iNews } from '../../Pages/Desktop/iNews.js';
 import { Artikel } from '../../Pages/Desktop/artikel.js';
+import * as allure from 'allure-js-commons';
+import { Severity } from 'allure-js-commons';
 
 test('Kanal', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
@@ -28,6 +31,7 @@ test('Kanal', async ({ page }) => {
 });
 
 test('Load More', async ({ page }) => {
+    await allure.severity(Severity.MINOR);
     test.setTimeout(120000);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -65,12 +69,13 @@ test('Load More', async ({ page }) => {
     await page.waitForTimeout(3000);
 
     const totalartikelakhir = await locator.containerartikel.locator(artikel.artikel).count()
-    expect(totalartikelakhir).toBeGreaterThan(totalartikelawal);
+    expect.soft(totalartikelakhir).toBeGreaterThan(totalartikelawal);
     console.log(`Total Artikel terakhir : ${totalartikelakhir}`);
     //}
 });
 
 test('Detail Artikel Kanal', async ({ page }) => {
+    await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
     await locator.siapkanJaringan();
