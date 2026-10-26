@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import os from 'node:os';
 
 export default defineConfig({
     testDir: './Tests',
@@ -6,16 +7,27 @@ export default defineConfig({
     timeout: 120000,
     workers: process.env.CI ? 1 : undefined,
 
-    reporter: [
-        ['line'],
-        ['html', {
-            open: 'never',
-            outputFolder: 'playwright-report'
-        }],
-        ['allure-playwright', {
-            resultsDir: 'allure-results'
-        }]
-    ],
+    
+reporter: [
+    ['line'],
+    ['html', {
+        open: 'never',
+        outputFolder: 'playwright-report'
+    }],
+    ['allure-playwright', {
+        resultsDir: 'allure-results',
+        environmentInfo: {
+            'Execution': process.env.CI
+                ? 'GitHub Actions'
+                : 'Local',
+            'Operating System': os.platform(),
+            'OS Version': os.release(),
+            'Node.js': process.version,
+            'Test Framework': 'Playwright'
+        }
+    }]
+],
+
 
     use: {
         screenshot: 'only-on-failure',
