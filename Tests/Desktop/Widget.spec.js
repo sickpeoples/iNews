@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Cek Semua Widget', async ({ page }) => {
+test('Cek Semua Widget @demo', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
 
@@ -28,7 +28,7 @@ test('Cek Semua Widget', async ({ page }) => {
     }
 });
 
-test('iNews Livestream', async ({ page }) => {
+test('iNews Livestream @demo', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);

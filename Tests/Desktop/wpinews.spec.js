@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Welcome Page', async ({ page }) => {
+test('Welcome Page @demo', async ({ page }) => {
 test.setTimeout(120000);
 await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
@@ -81,7 +81,7 @@ test('Latest News', async ({ page }) => {
     //}
 });
 
-test('Footer', async ({ page }) => {
+test('Footer @demo', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     await locator.siapkanJaringan();
