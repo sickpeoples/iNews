@@ -28,7 +28,7 @@ test('Cek Semua Widget @demo', async ({ page }) => {
     }
 });
 
-test('iNews Livestream', async ({ page }) => {
+test('iNews Livestream @demo', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
