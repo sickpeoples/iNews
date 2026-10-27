@@ -92,7 +92,7 @@ jobs:
           CI: 'true'
         run: |
           rm -rf allure-results allure-report-experiment
-          npx playwright test
+          npx playwright test --project="Desktop Chrome" --grep="@demo"
       
       - name: Add GitHub Actions Executor
         run: |
