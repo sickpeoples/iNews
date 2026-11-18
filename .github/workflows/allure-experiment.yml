@@ -18,15 +18,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  test-and-report:
-    name: Test and generate Allure Classic
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    outputs:
-      report_ready: ${{ steps.verify.outputs.ready }}
-    steps:
-      - name: Checkout selected branch
-        uses: actions/checkout@v4
+      test-and-report:
+      - name: Test and generate Allure Classic
+        runs-on: ubuntu-latest
+
+        container:
+          image: mcr.microsoft.com/playwright:v1.64.0-noble
+          options: --ipc=host
+
+        timeout-minutes: 90
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -41,9 +41,6 @@ jobs:
         run: |
           npx allure --version
           npm ls allure allure-playwright --depth=0
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
 
       - name: Find latest prior experiment history
         id: previous

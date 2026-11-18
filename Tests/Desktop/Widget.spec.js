@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Cek Semua Widget @demo', async ({ page }) => {
+test('Cek Semua Widget @regression @widget @deep', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
 
@@ -28,7 +28,7 @@ test('Cek Semua Widget @demo', async ({ page }) => {
     }
 });
 
-test('iNews Livestream @demo', async ({ page }) => {
+test('iNews Livestream @regression @widget', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -49,7 +49,7 @@ test('iNews Livestream @demo', async ({ page }) => {
     await expect(locator.Livestreaming).toBeVisible();
 });
 
-test('Daerah', async ({ page }) => {
+test('Daerah @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -72,7 +72,7 @@ test('Daerah', async ({ page }) => {
     await expect(namagambardetail).toContain(gambarartikel);
 });
 
-test('iNews Network', async ({ page }) => {
+test('iNews Network @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -97,7 +97,7 @@ test('iNews Network', async ({ page }) => {
 
 //BREAKING NEWS
 
-test('Spesial Bola', async ({ page }) => {
+test('Spesial Bola @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -125,7 +125,7 @@ test('Spesial Bola', async ({ page }) => {
 
 //HOT NEWS
 
-test('Popular News', async ({ page }) => {
+test('Popular News @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -148,7 +148,7 @@ test('Popular News', async ({ page }) => {
     await expect(namagambardetail).toContain(gambarartikel);
 });
 
-test('iShort', async ({ page }) => {
+test('iShort @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -166,7 +166,7 @@ test('iShort', async ({ page }) => {
     await expect(artikel.DetailJuduliShort.first()).toHaveText(JuduliShort);
 });
 
-test('Latest News', async ({ page }) => {
+test('Latest News @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -191,7 +191,7 @@ test('Latest News', async ({ page }) => {
     expect(namagambardetail).toContain(namagambar);
 });
 
-test('Berita di Sekitarmu', async ({ page, context }) => {
+test('Berita di Sekitarmu @regression @widget @deep', async ({ page, context }) => {
     await allure.severity(Severity.NORMAL);
     test.setTimeout(180000);
 
@@ -261,7 +261,7 @@ test('Berita di Sekitarmu', async ({ page, context }) => {
     } 
 });
 
-test('Video Highlights', async ({ page }) => {
+test('Video Highlights @regression @widget', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
 
@@ -281,7 +281,7 @@ test('Video Highlights', async ({ page }) => {
     console.log(`Iframe YouTube ditampilkan: ${video.judul}`);
 });
 
-test('Editor Choice', async ({ page }) => {
+test('Editor Choice @regression @widget', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -307,7 +307,7 @@ test('Editor Choice', async ({ page }) => {
     expect(namagambardetail).toContain(namagambar);
 });
 
-test('Photo', async ({ page }) => {
+test('Photo @regression @widget @deep', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -336,7 +336,7 @@ test('Photo', async ({ page }) => {
     }
 });
 
-test('InfoGraphic', async ({ page }) => {
+test('InfoGraphic @regression @widget @deep', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -365,7 +365,7 @@ test('InfoGraphic', async ({ page }) => {
     }
 });
 
-test('Opini', async ({ page }) => {
+test('Opini @regression @widget', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     const artikel = new Artikel(page);

@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Detail Artikel @demo', async ({ page }) => {
+test('Detail Artikel @regression @artikel @visual', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -25,13 +25,31 @@ test('Detail Artikel @demo', async ({ page }) => {
     await expect(artikel.detailjudul).toHaveText(judulArtikel);
     await expect(detailthumbnail).toEqual(thumbnailArtikel);
 
-    await expect(locator.header).toHaveScreenshot('Header-DetailArtikel.png');
+    await expect.soft(locator.header).toHaveScreenshot('Header-DetailArtikel.png');
     
     const paragraf = await locator.bodyartikel.locator(artikel.paragraf).count();
     await expect(paragraf).toBeGreaterThan(2);
+
+    const totallinkparagraf = await locator.bodyartikel.locator(artikel.LinkParagraf).count();
+    console.log(`Total Link : ${totallinkparagraf}`);
+    
+    for (let i = 0; i < totallinkparagraf; i++){
+    const link = locator.bodyartikel.locator(artikel.LinkParagraf).nth(i);
+    const namalink = await link.innerText();
+    console.log(`Link : ${namalink}`);
+
+    await link.click();
+
+    const hasil = await locator.searchkey;
+
+    await expect(hasil).toHaveText(namalink, { ignoreCase: true });
+    console.log(`Link Sesuai`);
+
+    await page.goBack();
+    };
 });
 
-test('Icon Share', async ({ page }) => {
+test('Icon Share @regression @artikel', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -49,7 +67,7 @@ test('Icon Share', async ({ page }) => {
     await expect(iconShare).toBeVisible();
 });
 
-test('Baca Juga', async ({ page }) => {
+test('Baca Juga @regression @artikel', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -104,7 +122,7 @@ test('Baca Juga', async ({ page }) => {
     }
 });
 
-test('Pagination', async ({ page }) => {
+test('Pagination @regression @artikel @deep', async ({ page }) => {
         await allure.severity(Severity.NORMAL);
         const locator = new iNews(page);
         const artikel = new Artikel(page);
@@ -154,9 +172,10 @@ test('Pagination', async ({ page }) => {
                 console.log('Jumlah artikel setelah kembali:', await daftarArtikel.count());
             }
         }
+    expect(Pagination, "Tidak ditemukan artikel dengan pagination").toBe(true);
 });
 
-test('Fungsi Tags', async ({ page }) => {
+test('Fungsi Tags @regression @artikel @deep', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -184,7 +203,7 @@ test('Fungsi Tags', async ({ page }) => {
     }
 });
 
-test('Related News', async ({ page }) => {
+test('Related News @regression @artikel', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -210,7 +229,7 @@ test('Related News', async ({ page }) => {
     await expect(DetailGambar).toContain(namagambarrelated);
 });
 
-test('Latest News', async ({ page }) => {
+test('Latest News @regression @artikel', async ({ page }) => {
     await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);

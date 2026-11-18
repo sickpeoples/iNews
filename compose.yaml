@@ -1,0 +1,29 @@
+
+services:
+  qa:
+    build: .
+    image: inews-qa:31
+
+    depends_on:
+      - report
+    
+    environment:
+      ENV: "production"
+      TAG : "@smoke"
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-history:/app/allure-history
+      - ./allure-report:/app/allure-report
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+      - ./allure-archive:/app/allure-archive
+
+
+  report:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./allure-report:/usr/share/nginx/html:ro
+      - ./allure-archive:/srv/allure-archive:ro
+      - ./nginx-allure.conf:/etc/nginx/conf.d/default.conf:ro

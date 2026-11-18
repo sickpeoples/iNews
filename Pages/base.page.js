@@ -57,7 +57,7 @@ async siapkanJaringan() {
     });
 }
     async bukaHalaman() {
-    await this.page.goto('https://www.inews.id/', {
+    await this.page.goto('/', {
         waitUntil: 'domcontentloaded',
         timeout: 60000
         });

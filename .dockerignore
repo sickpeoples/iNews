@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+.git
+.env
+allure-results
+allure-history
+allure-report
+allure-report-classic
+allure-report-experiment
+playwright-report
+test-results

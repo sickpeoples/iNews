@@ -35,7 +35,7 @@ export class iNews extends BasePage {
         this.FrameOkeZone = page.frameLocator('#iframeList');
         this.PopularNews = page.locator('.widgetPopular');
         this.iShort = page.locator('.widget-v-video');
-
+;
         this.widgetLokasi = page.locator('.widgetGeoLocation');
         this.toggleLokasi = this.widgetLokasi.locator('#btnToggleGeoLocation');
         this.konfirmasiLokasi = page.locator('.btn-toggle-yes');

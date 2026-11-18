@@ -4,3 +4,8 @@ test-results/
 allure-results/
 allure-report-classic/
 allure-history/
+allure-report/
+allure-history/
+allure-archive/
+Tests/Desktop/DetailArtikel.spec.js-snapshots/
+Tests/Desktop/wpinews.spec.js-snapshots/

@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Kanal', async ({ page }) => {
+test('Kanal @smoke @kanal', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -24,13 +24,13 @@ test('Kanal', async ({ page }) => {
     console.log(`link nya adalah ${srckanal}`);
 
     const klikkanal = locator.kanal.locator(artikel.daftarkanal).nth(1);
-    klikkanal.click();
+    await klikkanal.click();
     
     await expect(page).toHaveURL(srckanal);
     //}
 });
 
-test('Load More', async ({ page }) => {
+test('Load More @regression @kanal', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     test.setTimeout(120000);
     const locator = new iNews(page);
@@ -74,7 +74,7 @@ test('Load More', async ({ page }) => {
     //}
 });
 
-test('Detail Artikel Kanal', async ({ page }) => {
+test('Detail Artikel Kanal @regression @kanal', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);

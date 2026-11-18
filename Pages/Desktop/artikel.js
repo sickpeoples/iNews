@@ -9,6 +9,7 @@ export class Artikel{
         this.judul = '.cardTitle';
         this.thumbnail = '.cardImg img';
 
+        this.LinkParagraf = 'strong a[href]';
         this.paragraf = 'p';
         this.iconShare = '.iconShare';
         this.JudulBacaJuga = '.bacaJugaExcerpt';
@@ -94,7 +95,6 @@ export class Artikel{
 
     async ambilLinkTags(indukLocator, index){
         return indukLocator.locator(this.Tags).nth(index).getAttribute('href');
-
     };
 
     async namaThumbnailSpesialBola(indukLocator) {

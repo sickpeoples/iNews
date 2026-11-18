@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Fungsi Search', async ({ page }) => {
+test('Fungsi Search @regression @search @deep', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -27,6 +27,7 @@ test('Fungsi Search', async ({ page }) => {
 
     const total = await indukSearch.locator(artikel.artikelsearch).count();
     console.log(`ada ${total} artikel`);
+    expect(total, "Pencarian tidak menghasilkan artikel").toBeGreaterThan(0);
     
     for (let i = 0; i < total; i++) {
         const namajudul = await artikel.namaJudulDinamic(indukSearch, artikel.artikelsearch, i);
@@ -36,7 +37,7 @@ test('Fungsi Search', async ({ page }) => {
     }
 });
 
-test('Detail Artikel Search', async ({ page }) => {
+test('Detail Artikel Search @regression @search', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     test.setTimeout(120000)
     const locator = new iNews(page);

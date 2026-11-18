@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Sub Kanal', async ({ page }) => {
+test('Sub Kanal @regression @subkanal @deep', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     test.setTimeout(500000);
     const locator = new iNews(page);
@@ -55,7 +55,7 @@ test('Sub Kanal', async ({ page }) => {
     }
 });
 
-test('Load More Sub Kanal', async ({ page }) => {
+test('Load More Sub Kanal @regression @subkanal @deep', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     test.setTimeout(1300000);
     const locator = new iNews(page);
@@ -109,7 +109,7 @@ test('Load More Sub Kanal', async ({ page }) => {
     }
 });
 
-test('Detail Artikel Sub Kanal', async ({ page }) => {
+test('Detail Artikel Sub Kanal @regression @subkanal @deep', async ({ page }) => {
 test.setTimeout(300000);
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);

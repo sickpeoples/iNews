@@ -1,5 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const ENV = process.env.ENV || 'production';
+
+const environments = {
+    staging: 'https://beta.inews.co.id',
+    production: 'https://www.inews.id'
+};
+
+const BASE_URL = environments[ENV];
+
 export default defineConfig({
     testDir: './Tests',
 
@@ -18,6 +27,7 @@ export default defineConfig({
     ],
 
     use: {
+        baseURL: BASE_URL,
         screenshot: 'only-on-failure',
         trace: 'retain-on-failure'
     },

@@ -4,7 +4,7 @@ import { Artikel } from '../../Pages/Desktop/artikel.js';
 import * as allure from 'allure-js-commons';
 import { Severity } from 'allure-js-commons';
 
-test('Welcome Page @demo', async ({ page }) => {
+test('Welcome Page @regression @home @visual', async ({ page }) => {
 test.setTimeout(120000);
 await allure.severity(Severity.NORMAL);
     const locator = new iNews(page);
@@ -17,7 +17,7 @@ await allure.severity(Severity.NORMAL);
     await expect(locator.latestnews).toBeVisible();
 });
 
-test('Headline', async ({ page }) => {
+test('Headline @regression @home @deep', async ({ page }) => {
 test.setTimeout(120000);
 await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
@@ -49,7 +49,7 @@ await allure.severity(Severity.CRITICAL);
     }
 });
 
-test('Latest News', async ({ page }) => {
+test('Latest News @regression @home', async ({ page }) => {
     await allure.severity(Severity.CRITICAL);
     const locator = new iNews(page);
     const artikel = new Artikel(page);
@@ -81,7 +81,7 @@ test('Latest News', async ({ page }) => {
     //}
 });
 
-test('Footer @demo', async ({ page }) => {
+test('Footer @regression @home @visual', async ({ page }) => {
     await allure.severity(Severity.MINOR);
     const locator = new iNews(page);
     await locator.siapkanJaringan();
